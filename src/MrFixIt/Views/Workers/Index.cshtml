@@ -12,7 +12,7 @@
         <h3>Your Current Jobs:</h3>
         @foreach (var Job in Model.Jobs)
         {
-            <h4>@Html.ActionLink("Begin This Job", "Detail", "Jobs", new { @text = @Job.Title, id = Job.JobId })</h4>
+            <h4>@Job.Title @Html.ActionLink("Details", "Detail", "Jobs", new { @text = @Job.Title, id = Job.JobId })</h4>
         }
         @if (Model.Avaliable)
         {

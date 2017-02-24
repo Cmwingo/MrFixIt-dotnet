@@ -15,14 +15,53 @@
         });
     });
 </script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.complete-job').submit(function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: '@Url.Action("CompleteJob")',
+                type: 'POST',
+                dataType: 'json',
+                data: $(this).serialize(),
+                success: function (result) {
+                    var resultMessage = 'You just completed ' + result.title + ' :' + result.description;
+                    $('#complete-job-result').html(resultMessage);
+                }
+            });
+        });
+    });
+</script>
+
 @model MrFixIt.Models.Job
 
 <h4>@Model.Title</h4>
-@using (Html.BeginForm("BeginJob", "Jobs", FormMethod.Post, new { @class = "begin-job" }))
+@if (Model.Pending == false)
 {
-    @Html.HiddenFor(model => model.JobId)
-    @Html.HiddenFor(model => model.Title)
-    @Html.HiddenFor(model => model.Description)
-    <input type="submit" value="Begin This Job" />
+    @using (Html.BeginForm("BeginJob", "Jobs", FormMethod.Post, new { @class = "begin-job" }))
+    {
+        @Html.HiddenFor(model => model.JobId)
+        @Html.HiddenFor(model => model.Title)
+        @Html.HiddenFor(model => model.Description)
+        @Html.HiddenFor(model => model.Pending)
+        @Html.HiddenFor(model => model.Completed)
+        <input type="submit" value="Begin This Job" />
+    }
+
 }
 <div id="begin-job-result"></div>
+@if (Model.Completed == false)
+{
+    @using (Html.BeginForm("CompleteJob", "Jobs", FormMethod.Post, new { @class = "complete-job" }))
+    {
+        @Html.HiddenFor(model => model.JobId)
+        @Html.HiddenFor(model => model.Title)
+        @Html.HiddenFor(model => model.Description)
+        @Html.HiddenFor(model => model.Pending)
+        @Html.HiddenFor(model => model.Completed)
+        <input type="submit" class="btn btn-success" value="Mark this Job as Complete" />
+    }
+
+}
+@Html.ActionLink("Return to your dashboard", "Index", "Workers")
+<div id="complete-job-result"></div>

@@ -70,5 +70,22 @@ namespace MrFixIt.Controllers
                 return Json(job);
             }
         }
+
+        [HttpPost]
+        public IActionResult CompleteJob(Job job)
+        {
+            if (job.Completed == false)
+            {
+                job.Completed = true;
+                db.Entry(job).State = EntityState.Modified;
+                db.SaveChanges();
+                return Json(job);
+            }
+            else
+            {
+                return Json(job);
+            }
+        }
+
     }
 }
