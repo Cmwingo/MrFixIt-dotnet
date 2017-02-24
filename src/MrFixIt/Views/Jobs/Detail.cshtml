@@ -1,0 +1,28 @@
+﻿<script type="text/javascript">
+    $(document).ready(function () {
+        $('.begin-job').submit(function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: '@Url.Action("BeginJob")',
+                type: 'POST',
+                dataType: 'json',
+                data: $(this).serialize(),
+                success: function (result) {
+                    var resultMessage = 'You just began ' + result.title + ' :' + result.description;
+                    $('#begin-job-result').html(resultMessage);
+                }
+            });
+        });
+    });
+</script>
+@model MrFixIt.Models.Job
+
+<h4>@Model.Title</h4>
+@using (Html.BeginForm("BeginJob", "Jobs", FormMethod.Post, new { @class = "begin-job" }))
+{
+    @Html.HiddenFor(model => model.JobId)
+    @Html.HiddenFor(model => model.Title)
+    @Html.HiddenFor(model => model.Description)
+    <input type="submit" value="Begin This Job" />
+}
+<div id="begin-job-result"></div>

@@ -4,7 +4,6 @@
 @{
 }
 
-
 @if (User.Identity.IsAuthenticated)
 {
 
@@ -13,8 +12,7 @@
         <h3>Your Current Jobs:</h3>
         @foreach (var Job in Model.Jobs)
         {
-            <h5>@Job.Title</h5>
-
+            <h4>@Html.ActionLink("Begin This Job", "Detail", "Jobs", new { @text = @Job.Title, id = Job.JobId })</h4>
         }
         @if (Model.Avaliable)
         {
@@ -24,5 +22,6 @@
         {
             <p>You are already assigned to a job.</p>
         }
+        <div id="begin-job-result"></div>
     </div>
 }
