@@ -3,11 +3,28 @@
 *@
 @{
 }
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.claim-job').submit(function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: '@Url.Action("Claim")',
+                type: 'POST',
+                dataType: 'json',
+                data: $(this).serialize(),
+                success: function (result) {
+                    var resultMessage = 'You just claimed ' + result.title + ' :' + result.description;
+                    $('#claim-result').html(resultMessage);
+                }
+            });
+        });
+    });
+</script>
 @model MrFixIt.Models.Job
 
 <h2>Would you like to do this job?</h2>
 <hr />
-@using (Html.BeginForm())
+@using (Html.BeginForm("Claim", "Jobs", FormMethod.Post, new { @class = "claim-job" }))
 {
     @Html.HiddenFor(model => model.JobId)
     @Html.HiddenFor(model => model.Title)
@@ -16,4 +33,5 @@
     <h4>@Model.Title</h4>
     <input type="submit" value="Claim This Job" />
 }
+<div id="claim-result"></div>
 <p>@Html.ActionLink("Back to list", "Index")</p>
