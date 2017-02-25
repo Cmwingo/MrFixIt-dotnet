@@ -12,7 +12,21 @@
     <ul>
         <li>@Job.Title</li>
         <ul>
-            <li>@Job.Description</li>
+            <li>
+                @Job.Description
+                @if(Job.Completed == true)
+                {
+                    <p>Status: Complete</p>
+                }
+                else if(Job.Pending == true)
+                {
+                    <p>Status: In Progress</p>
+                }
+                else if(Job.Worker != null)
+                {
+                    <p>Status: Unbegun</p>
+                }
+            </li>
         </ul>
         @if (Job.Worker == null)
         {
