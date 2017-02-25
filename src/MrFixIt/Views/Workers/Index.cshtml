@@ -14,6 +14,8 @@
         {
             <h4>@Job.Title @Html.ActionLink("Details", "Detail", "Jobs", new { @text = @Job.Title, id = Job.JobId })</h4>
         }
+
+        @*Checks for the worker's Availability before allowing another selection*@
         @if (Model.Avaliable)
         {
             <h2>Please @Html.ActionLink("select a job", "Index", "Jobs").</h2>

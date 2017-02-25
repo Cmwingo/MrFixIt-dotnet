@@ -43,6 +43,7 @@ namespace MrFixIt.Controllers
         public IActionResult Claim(Job job)
         {
             job.Worker = db.Workers.FirstOrDefault(i => i.UserName == User.Identity.Name);
+            job.Worker.Avaliable = false;
             db.Entry(job).State = EntityState.Modified;
             db.SaveChanges();
             return Json(job);
@@ -77,7 +78,10 @@ namespace MrFixIt.Controllers
             if (job.Completed == false)
             {
                 job.Completed = true;
+                Worker thisWorker = job.FindWorker(User.Identity.Name);
+                thisWorker.Avaliable = true;
                 db.Entry(job).State = EntityState.Modified;
+                db.Entry(thisWorker).State = EntityState.Modified;
                 db.SaveChanges();
                 return Json(job);
             }
