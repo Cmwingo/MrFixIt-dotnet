@@ -2,3 +2,9 @@
     padding-top: 70px;
     color: navy;
 }
+
+#logo {
+    height:65px;
+    border:5px inset lightgray;
+    box-shadow: #000000 5px 5px inset;
+}
